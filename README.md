@@ -1,6 +1,6 @@
 # Task Management API
 
-This is a RESTful API for managing tasks, their statuses, and categories. The API is built with Django and Django REST Framework.
+This is a RESTful API for managing task's, their statuse's, and categories. The API is built with Django and Django REST Framework.
 
 ## Setup
 
