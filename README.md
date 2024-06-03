@@ -31,22 +31,39 @@ Once the server is running, you can interact with the API using a tool like curl
 
 ## API Endpoints
 
-### Task Endpoints
+Project Endpoints
+
+    GET /projects/: Retrieve a list of all projects.
+    POST /projects/: Create a new project.
+    GET /projects/{id}/: Retrieve a specific project by ID.
+    PUT /projects/{id}/: Update a specific project by ID.
+    DELETE /projects/{id}/: Delete a specific project by ID.
+
+Task Endpoints
+
     GET /tasks/: Retrieve a list of all tasks.
     POST /tasks/: Create a new task.
     GET /tasks/{id}/: Retrieve a specific task by ID.
     PUT /tasks/{id}/: Update a specific task by ID.
     DELETE /tasks/{id}/: Delete a specific task by ID.
 
-### Status Endpoints
+TaskAssignment Endpoints
 
-    GET /statuses/: Retrieve a list of all statuses.
-    POST /statuses/: Create a new status.
-    GET /statuses/{id}/: Retrieve a specific status by ID.
-    PUT /statuses/{id}/: Update a specific status by ID.
-    DELETE /statuses/{id}/: Delete a specific status by ID.
+    GET /task-assignments/: Retrieve a list of all task assignments.
+    POST /task-assignments/: Create a new task assignment.
+    GET /task-assignments/{id}/: Retrieve a specific task assignment by ID.
+    PUT /task-assignments/{id}/: Update a specific task assignment by ID.
+    DELETE /task-assignments/{id}/: Delete a specific task assignment by ID.
 
-### Category Endpoints
+Comment Endpoints
+
+    GET /comments/: Retrieve a list of all comments.
+    POST /comments/: Create a new comment.
+    GET /comments/{id}/: Retrieve a specific comment by ID.
+    PUT /comments/{id}/: Update a specific comment by ID.
+    DELETE /comments/{id}/: Delete a specific comment by ID.
+
+Category Endpoints
 
     GET /categories/: Retrieve a list of all categories.
     POST /categories/: Create a new category.
@@ -54,40 +71,54 @@ Once the server is running, you can interact with the API using a tool like curl
     PUT /categories/{id}/: Update a specific category by ID.
     DELETE /categories/{id}/: Delete a specific category by ID.
 
-
 ## Models
 
-## Task
+### Project
 
     id: AutoField (Primary Key)
     title: CharField
     description: TextField
-    status: ForeignKey (Status)
     category: ForeignKey (Category)
+
+### Task
+
+    id: AutoField (Primary Key)
+    title: CharField
+    description: TextField
+    project: ForeignKey (Project)
     due_date: DateTimeField
 
-### Status
+### TaskAssignment
 
     id: AutoField (Primary Key)
-    name: CharField (Choices: 'To-Do', 'In Progress', 'Complete')
+    task: ForeignKey (Task)
+    assignee: ForeignKey (User)
 
-### Category
+### Comment
 
     id: AutoField (Primary Key)
-    name: CharField
+    task: ForeignKey (Task)
+    author: ForeignKey (User)
+    content: TextField
+    
 
 ## Validation
+
+### ProjectSerializer
+
+    validate: Ensures the title is not empty.
 
 ### TaskSerializer
 
     validate_due_date: Ensures the due date is not in the past.
     validate: Ensures the title is not empty.
 
-### StatusSerializer
+### TaskAssignmentSerializer
 
-    validate_name: Ensures the status name is one of the valid choices ('To-Do', 'In Progress', 'Complete').
+    validate: Ensures the task and assignee are valid.
 
-### CategorySerializer
+### CommentSerializer
 
-    validate_name: Ensures the category name is not empty.
+    validate: Ensures the content is not empty.
+
     
